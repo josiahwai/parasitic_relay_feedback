@@ -1,13 +1,32 @@
 close all;
-%clear all;
+clear all;
 clc;
+
+%% Get true transfer function
+%make_G_true;
+K = 1;
+T = 0.1;
+D = 0.001;
+s = tf('s');
+G_true = (K/(1+T*s))*exp(-D*s);
+
+%% Choose noise power
+NoisePower = 0;%0.00000001;
+
+%% Simulate
+Tsim = 10;
+sim('RFB_parasitic_method',Tsim)
+
+
 clearvars -except u y G_true P1D
 
+%% Analysis
 NumOfFreqs = 5;
 
-t = y.time;
-U = u.data;
-Y = y.data;
+t = u.time;
+U = u.data(1:length(t));
+Y = y.data(1:length(t));
+%Y = sgolayfilt(Y,3,101);
 
 Ts = mean(diff(y.time));      % Sample time
 Fs = 1/Ts;                    % Sampling frequency
@@ -69,8 +88,8 @@ else
 end
 
 
-
-TF = frd(TF_YU,f_YU);
+f_YU_rad = 2 * pi .* f_YU;
+TF = frd(TF_YU,f_YU_rad);
 
 
 
@@ -115,7 +134,14 @@ scatter(real(TF_YU),imag(TF_YU))
 grid on
 hold on
 nyquist(G_true)
-nyquist(P1D)
+%nyquist(P1D)
+%nyquist(tf1)
+
+figure
+plot(t,Y)
+hold on
+grid on
+plot(t,sgolayfilt(Y,3,101),'LineWidth',2)
 
 
 
