@@ -6,7 +6,7 @@ Au = sqrt(Pu);
 
 % Calculate gains
 Au2 = Au;
-thresh = min(maxk(Au2,10));  % use a threshold to ignore divs by zero
+thresh = min(maxk(Au2,20));  % use a threshold to ignore divs by zero
 Au2(Au2 < thresh) = nan;
 G = Ay ./ Au2;
 
@@ -14,6 +14,7 @@ G = Ay ./ Au2;
 % Plot it
 [~,imax] = max(Ay);
 xmax = 3*f(imax);
+
 
 figure
 subplot(3,1,1)
