@@ -22,13 +22,8 @@ clearvars -except u y G_true P1D
 NumOfFreqs = 5;
 
 % filter and FFT input and measurements
-t = u.time;
-ts = mean(diff(t));
-U = u.data;
-Y = sgolayfilt(y.data, 3, 101);
-
-[FTY, MFTY, f] = fft_time(Y, ts)
-[FTY, MFTY, f] = fft_time(U, ts)
+ts = 5
+[FTY, MFTY, f] = fft_time(y.data, ts)
 
 
 
@@ -98,9 +93,6 @@ for ii = 1:length(f_for_TFest)
        ind = ind+1;
     end    
 end
-
-
-
 % Calculate steady state gain
 SSgain = trapz(Y)/trapz(U);
 
