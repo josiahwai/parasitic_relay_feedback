@@ -6,7 +6,7 @@ clear; clc; close all;
 Kp = 1;
 tau = .1;
 D = .01;
-NoisePower = 0.00000001;
+NoisePower = 0.000000001;
 NumOfFreqs = 5;   % number of harmonic peaks to include in fitting
 Tsim = 10;
 
