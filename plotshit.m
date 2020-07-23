@@ -62,7 +62,7 @@ figure
 hold on
 nyquist(G_true, 'b')
 nyquist(G_fit, 'r')
-scatter( real(gains_rfb), imag(gains_rfb), 'r', 'filled')
+scatter( real(gains_meas), imag(gains_meas), 'r', 'filled')
 legend('True Model', 'Fit Model', 'Measured Gains')
 
 

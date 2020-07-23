@@ -3,12 +3,22 @@ clear; clc; close all;
 % ========
 % SETTINGS
 % ========
+noise_power = 0;
+NumOfFreqs = 5;   % number of harmonic peaks to include in fitting
+Tsim = 10;
+
+% model parameters
 Kp = 1;
 tau = .1;
 D = .002;
-NoisePower = 0;
-NumOfFreqs = 5;   % number of harmonic peaks to include in fitting
-Tsim = 10;
+model_params = [Kp tau D];
+
+% relay parameters
+h = 1;
+alpha = 0.2;
+bias = 0.5;
+hysteresis = 0.04;
+relay_params = [h alpha bias hysteresis];
 
 % ========
 % SIMULATE
@@ -28,11 +38,11 @@ udata = u.data(1:n);
 ydata = sgolayfilt(y.data(1:n),3,101);
 
 % Find relay feedback gains
-[gains_rfb, f_rfb, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = find_rfb_gains...
+[gains_meas, f_meas, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = find_rfb_gains...
   (udata, ydata, ts, NumOfFreqs); 
 
 % Fit to a FOPDT model
-[Kp_fit, tau_fit, D_fit] = fit_transfer_fun(udata, ydata, ts, gains_rfb, f_rfb);
+[Kp_fit, tau_fit, D_fit] = fit_transfer_fun(udata, ydata, ts, gains_meas, f_meas);
 G_fit = make_G( Kp_fit, tau_fit, D_fit);
 
 
