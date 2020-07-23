@@ -19,7 +19,7 @@ fx(1) = subplot(222);
 plot(f, Ay) 
 grid on
 hold on
-scatter(f(ipks), Ay(ipks),'r', 'filled')
+scatter(f(ipks_y), Ay(ipks_y),'r', 'filled')
 title('Single-Sided Amplitude Spectrum of y(t)')
 xlabel('Frequency (Hz)')
 ylabel('|Y(f)|')
@@ -44,7 +44,7 @@ fx(2) = subplot(224);
 plot(f, Au) 
 grid on
 hold on
-scatter(f(ipks), Au(ipks), 'r', 'filled')
+scatter(f(ipks_u), Au(ipks_u), 'r', 'filled')
 title('Single-Sided Amplitude Spectrum of y(t)')
 xlabel('Frequency (Hz)')
 ylabel('|U(f)|')
@@ -64,7 +64,6 @@ nyquist(G_true, 'b')
 nyquist(G_fit, 'r')
 scatter( real(gains_rfb), imag(gains_rfb), 'r', 'filled')
 legend('True Model', 'Fit Model', 'Measured Gains')
-axis([-0.1439    1.0881   -0.7066    0.6430])
 
 
 
