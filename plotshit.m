@@ -6,15 +6,13 @@ figure
 % Plot time-domain signal y
 ax(1) = subplot(221);
 hold on
-plot(t, y.data, 'b');
-plot(t, ydata, '--r');
+plot(t, ydata, 'b');
 grid on
 ylabel('Amplitude'); 
 xlabel('Time (secs)');
 title('Response (Y) time signal');
-ylim([1.2*min(y.data) 1.2*max(y.data)])
+ylim([1.2*min(ydata) 1.2*max(ydata)])
 xlim([0 1])
-legend('Measured', 'Sgolay filtered')
 
 % Plot FFT y
 fx(1) = subplot(222);
@@ -32,12 +30,12 @@ ylim([-.05 1.2]*max(Ay))
 
 % Plot time-domain signal u
 ax(2) = subplot(223);
-plot(t, u.data);
+plot(t, udata);
 grid on
 ylabel('Amplitude'); 
 xlabel('Time (secs)');
 title('Relay (u) time signal');
-ylim([1.2*min(u.data) 1.2*max(u.data)])
+ylim([1.2*min(udata) 1.2*max(udata)])
 xlim([0 1])
 
 

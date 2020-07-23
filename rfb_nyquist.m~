@@ -6,7 +6,7 @@ clear; clc; close all;
 Kp = 1;
 tau = .1;
 D = .01;
-NoisePower = 5e-8;
+NoisePower = 0.0000001;
 NumOfFreqs = 5;   % number of harmonic peaks to include in fitting
 Tsim = 10;
 
@@ -20,11 +20,11 @@ clearvars -except u y G_true NumOfFreqs NoisePower
 % =========
 % ANALYSIS
 % =========
-t = u.time;
+t = udata.time;
 n = length(t);
 ts = mean(diff(t));  % sample time
-udata = u.data(1:n);
-ydata = sgolayfilt(y.data(1:n),3,101);
+udata = udata.data(1:n);
+ydata = sgolayfilt(ydata.data(1:n),3,101);
 
 % Find relay feedback gains
 [gains_rfb, f_rfb, ipks, f, Y, U, Ay, Au] = find_rfb_gains(udata, ydata, ts, NumOfFreqs); 

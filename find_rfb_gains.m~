@@ -11,9 +11,11 @@ function [G_pts, f_pts, ipks, f, Y, U, Ay, Au] = find_rfb_gains(u_data, y_data, 
 [U,Au,f] = fft_time(u_data, ts);
 
 % Find fundamental frequency and harmonics
-isearch = find(f > 0.5);  % ignore the zero hz peak
-[~,i] = max(Ay(isearch));
-ff = f(isearch(i));     % fundamental freq
+
+Ay_search
+
+[~,i] = max(Ay);
+ff = f(i);     % fundamental freq
 f_max = nfreqs*ff / 2;
 f_harmonics = (0.5*ff: 0.5*ff: f_max)';
 
