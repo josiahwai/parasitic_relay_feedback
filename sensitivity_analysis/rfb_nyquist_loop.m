@@ -33,7 +33,7 @@ ydata = sgolayfilt(y.data(1:n),3,101);
 [Kp_fit, tau_fit, D_fit] = fit_transfer_fun(udata, ydata, ts, gains_meas, f_meas);
 G_fit = make_G( Kp_fit, tau_fit, D_fit);
 
-plotshit
+% plotshit
 
 % ===============
 % MEASURE ERRORS
@@ -41,9 +41,9 @@ plotshit
 gains_true = fopdt_gain( f_meas, Kp, tau, D);
 gains_fit = fopdt_gain( f_meas, Kp_fit, tau_fit, D_fit);
 
-e.Kp_err = (Kp_fit - Kp) / Kp;
-e.tau_err = (tau_fit - tau) / tau;
-e.D_err = (D_fit - D) / D;
+e.Kp_err = abs( (Kp_fit - Kp) / Kp);
+e.tau_err = abs( (tau_fit - tau) / tau);
+e.D_err = abs( (D_fit - D) / D);
 
 e.gains_fit_err = abs((gains_true - gains_fit)) ./ abs(gains_true);
 e.gains_meas_err = abs((gains_true - gains_meas)) ./ abs(gains_true);

@@ -29,8 +29,10 @@ param0 = abs([Kp0 tau0 D0]');
 
 lb = [-inf -inf 0]; % time delay must be positive
 
+opts = optimset('display', 'off');
+
 params_hat = lsqnonlin(@weighted_fopdt_err, param0, ...
-  lb, [], [], f_measured, gains_measured);
+  lb, [], opts, f_measured, gains_measured);
 
 [Kp_fit, tau_fit, D_fit] = unpack(params_hat);
 
