@@ -2,8 +2,8 @@ close all
 
 % model parameters
 Kp = 1;
-tau = .1;
-D = .01;
+tau = 5;
+D = 5;
 model_params = [Kp tau D];
 G_true = make_G(Kp, tau, D);   % transfer function model
 
@@ -23,7 +23,7 @@ warning('off','all')
 % ===========================
 % INCREASING NOISE SIMULATION
 % ===========================
-noise_power_list = logspace(-10, -8, 20);
+noise_power_list = noise_power; %logspace(-9, -6.5, 20);
 
 for k = 1:length(noise_power_list)
   k
@@ -77,10 +77,9 @@ title('Gains fit err [%]')
 sgtitle(['Kp = ' num2str(Kp) ', tau = ' num2str(tau) ', D = ' num2str(D)], 'fontweight', 'bold')
 
 
-
 linkaxes(ax)
 ylim([-10 120])
-xlim([0 0.3])
+% xlim([0 0.3])
 
 
 

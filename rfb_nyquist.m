@@ -8,16 +8,16 @@ NumOfFreqs = 5;   % number of harmonic peaks to include in fitting
 Tsim = 10;
 
 % model parameters
-Kp = 1;
+Kp = 5;
 tau = .1;
-D = .002;
+D = .02;
 model_params = [Kp tau D];
 
 % relay parameters
 h = 1;
 alpha = 0.2;
-bias = 0.5;
-hysteresis = 0.04;
+bias = 0.3;
+hysteresis = 0;
 relay_params = [h alpha bias hysteresis];
 
 % ========

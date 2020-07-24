@@ -45,7 +45,7 @@ plot(f, Au)
 grid on
 hold on
 scatter(f(ipks_u), Au(ipks_u), 'r', 'filled')
-title('Single-Sided Amplitude Spectrum of y(t)')
+title('Single-Sided Amplitude Spectrum of u(t)')
 xlabel('Frequency (Hz)')
 ylabel('|U(f)|')
 xlim([0 f(ipks(end))*2])
@@ -54,6 +54,7 @@ ylim([-.05 1.2]*max(Au))
 
 linkaxes(ax,'x')
 linkaxes(fx,'x')
+set(gcf, 'position', [564 78 560 420])
 
 % ============
 % NYQUIST PLOT
@@ -64,7 +65,7 @@ nyquist(G_true, 'b')
 nyquist(G_fit, 'r')
 scatter( real(gains_meas), imag(gains_meas), 'r', 'filled')
 legend('True Model', 'Fit Model', 'Measured Gains')
-
+set(gcf, 'position', [1 76 560 420])
 
 
 
