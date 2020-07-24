@@ -3,21 +3,21 @@ clear; clc; close all;
 % ========
 % SETTINGS
 % ========
-noise_power = 0;
+noise_power = 1.5e-3;
 NumOfFreqs = 5;   % number of harmonic peaks to include in fitting
-Tsim = 10;
+Tsim = 200;
 
 % model parameters
 Kp = 5;
-tau = .1;
-D = .02;
+tau = 1;
+D = 1;
 model_params = [Kp tau D];
 
 % relay parameters
-h = 1;
-alpha = 0.2;
-bias = 0.3;
-hysteresis = 0;
+h = 2;
+alpha = 0.3;
+bias = 0.2*h;
+hysteresis = 6;
 relay_params = [h alpha bias hysteresis];
 
 % ========
@@ -26,16 +26,22 @@ relay_params = [h alpha bias hysteresis];
 G_true = make_G(Kp, tau, D);   % transfer function model
 sim('RFB_parasitic_method',Tsim)
 
-noise_ratio = mean(abs(noise.data)) / mean(abs(yclean.data)); % noise amplitude ratio
-
 % =========
 % ANALYSIS
 % =========
 t = u.time;
 n = length(t);
 ts = mean(diff(t));  % sample time
+Fs = 1/ts; 
 udata = u.data(1:n);
 ydata = sgolayfilt(y.data(1:n),3,101);
+
+% noise-to-signal power spectrum ratio and amplitude ratio
+psd_noise = periodogram(noise.data, [], n, Fs);
+psd_y = periodogram(yclean.data, [], n, Fs);
+
+noise_ratio1 = mean(psd_noise) / mean(psd_y)
+noise_ratio2 = mean(abs(noise.data)) / mean(abs(yclean.data))
 
 % Find relay feedback gains
 [gains_meas, f_meas, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = find_rfb_gains...

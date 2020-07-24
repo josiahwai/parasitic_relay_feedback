@@ -12,7 +12,7 @@ ylabel('Amplitude');
 xlabel('Time (secs)');
 title('Response (Y) time signal');
 ylim([1.2*min(ydata) 1.2*max(ydata)])
-xlim([0 Tsim])
+xlim([0 1])
 
 % Plot FFT y
 fx(1) = subplot(222);
@@ -36,7 +36,7 @@ ylabel('Amplitude');
 xlabel('Time (secs)');
 title('Relay (u) time signal');
 ylim([1.2*min(udata) 1.2*max(udata)])
-xlim([0 Tsim])
+xlim([0 1])
 
 
 % Plot single-sided amplitude spectrum.
@@ -56,6 +56,7 @@ linkaxes(ax,'x')
 linkaxes(fx,'x')
 set(gcf, 'position', [564 78 560 420])
 
+xlim([0 Tsim
 % ============
 % NYQUIST PLOT
 % ============

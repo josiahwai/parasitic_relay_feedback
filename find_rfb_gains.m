@@ -12,12 +12,12 @@ function [gains_rfb, f_rfb, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = ...
 [U,Au,f] = fft_time(u_data, ts);
 
 % Find fundamental frequency and harmonics
-isearch = find(f > 0.5);   % ignore the zero hz peak
+isearch = find(f > 0.05);   % ignore the zero hz peak
 [~,k] = max(Ay(isearch)); % find fundamental frequency from y
 i1 = isearch(k);
 ff_y = f(i1);
 
-fwindow = 1;  % find fundamental frequency from u
+fwindow = 0.1*ff_y;  % find fundamental frequency from u
 isearch =  find( abs(f-ff_y) < fwindow);  
 [~,k] = max(Au(isearch));
 i2 = isearch(k);
@@ -27,8 +27,8 @@ i = round((i1+i2)/2);  % averaged fundamental freq
 ff = f(i);                 
 
 % Create list of harmonic frequencies
-f_max = nfreqs*ff / 2;
-f_harmonics = (0.5*ff: 0.5*ff: f_max)';
+f_harmonics_y = (0.5*ff_y: 0.5*ff_y: nfreqs*ff_y/2)';
+f_harmonics_u = (0.5*ff_u: 0.5*ff_u: nfreqs*ff_u/2)';
 
 
 % search within fwindow Hz to find the peaks of each harmonic
@@ -36,12 +36,12 @@ f_harmonics = (0.5*ff: 0.5*ff: f_max)';
 ipks_y = [];
 ipks_u = [];
 
-for i = 1:length(f_harmonics)
-  isearch = find( abs(f-f_harmonics(i)) < fwindow*i);
-  
+for i = 1:nfreqs
+  isearch = find( abs(f-f_harmonics_y(i)) < fwindow);  
   [~,k] = max( Ay( isearch));
   ipks_y(i) = isearch(k);
   
+  isearch = find( abs(f-f_harmonics_u(i)) < fwindow);    
   [~,k] = max( Au( isearch));
   ipks_u(i) = isearch(k);
   
