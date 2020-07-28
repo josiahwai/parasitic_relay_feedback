@@ -66,7 +66,7 @@ nyquist(G_fit, 'r')
 scatter( real(gains_meas), imag(gains_meas), 'r', 'filled')
 legend('True Model', 'Fit Model', 'Measured Gains')
 set(gcf, 'position', [1 76 560 420])
-
+xlim([-1 1.5]*Kp)
 
 
 

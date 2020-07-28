@@ -54,7 +54,8 @@ e.D_err = abs( (D_fit - D) / D);
 e.gains_fit_err = abs((gains_true - gains_fit)) ./ abs(gains_true);
 e.gains_meas_err = abs((gains_true - gains_meas)) ./ abs(gains_true);
 
-e.noise_ratio = noise_ratio2;
+e.noise_ratio1 = noise_ratio1;
+e.noise_ratio2 = noise_ratio2;
 
 
 

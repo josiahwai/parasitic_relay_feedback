@@ -6,12 +6,12 @@ addpath([pwd '/sensitivity_analysis'])
 % ========
 % SETTINGS
 % ========
-noise_power = 8e-16;
+noise_power = 7.5e-16;
 NumOfFreqs = 5;   % number of harmonic peaks to include in fitting
 Tsim = 5.02;
 
 % model parameters
-Kp = 1.5e-4;  
+Kp = 1.5e-4;  % RMP coils in kA
 tau = 0.1;  
 D = .01;
 model_params = [Kp tau D];
@@ -48,7 +48,7 @@ noise_ratio2 = mean(abs(noise.data)) / mean(abs(yclean.data))
 
 % Find relay feedback gains
 [gains_meas, f_meas, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = find_rfb_gains...
-  (udata, ydata, ts, NumOfFreqs); 
+  (udata, ydata, t, ts, NumOfFreqs); 
 
 % Fit to a FOPDT model
 [Kp_fit, tau_fit, D_fit] = fit_transfer_fun(udata, ydata, ts, gains_meas, f_meas);

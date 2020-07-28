@@ -30,7 +30,6 @@ ff = f(i);
 f_harmonics_y = (0.5*ff_y: 0.5*ff_y: nfreqs*ff_y/2)';
 f_harmonics_u = (0.5*ff_u: 0.5*ff_u: nfreqs*ff_u/2)';
 
-
 % search within fwindow Hz to find the peaks of each harmonic
 % need 2 sets of indices since peak in Ay may be offset slightly from Au
 ipks_y = [];
@@ -53,8 +52,28 @@ ipks = round((ipks_y + ipks_u) / 2);
 f_rfb = f(ipks)';
 gains_rfb = Y(ipks_y) ./ U(ipks_u);
 
-% Add a point for the zero frequency (steady-state gains)
-Kp = trapz(y_data) / trapz(u_data);
+% Add a point for the zero frequency (steady-state gain == Kp)
+% The formula is: Kp = integral(y dt) / integral(u dt)
+% However, time window for integration can affect Kp estimate significantly 
+% Therefore, integrate over multiple time windows and average. 
+
+n = length(u_data);
+samples_per_pd = 10;   % sample Kp 10 times per period
+nperiods = 10;         % average over 10 periods
+period = 1 / f_rfb(1);   
+dwindow = round( 0.5 * period / (samples_per_pd*ts)); 
+
+istart = (dwindow * samples_per_pd * nperiods+1);
+iwindow0 = istart:n-istart;
+
+for i = 1:nperiods*samples_per_pd
+  yidx = iwindow0 + (i-1) * dwindow;
+  uidx = iwindow0 - (i-1) * dwindow;
+  Kp(i) = trapz( y_data( yidx)) / trapz( u_data( uidx));
+end
+
+Kp = mean(Kp);
+
 gains_rfb = [Kp; gains_rfb];
 f_rfb = [0; f_rfb];
 

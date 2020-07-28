@@ -22,18 +22,18 @@ wu = 2*pi*f_measured(3);
 % eqn 3.16, Cheng-Ching Yu, Autotuning of PID Controllers
 tau0 = sqrt( (Kp0*Ku)^2 - 1) / wu;
 
-param0 = abs([Kp0 tau0 D0]');
+param0 = abs([Kp0 tau0 D0]')
 % ===========================================
 % Perform weighted least squares optimization
 % ===========================================
 
 lb = [-inf -inf 0]; % time delay must be positive
 
-opts = optimset('display', 'off');
-opts.TolFun = 1e-12;
+opts = optimset('display', 'on');
+opts.TolFun = 1e-16;
 
-[params_hat,~,~,~,output] = lsqnonlin(@weighted_fopdt_err, param0, ...
-  lb, [], opts, f_measured, gains_measured);
+[params_hat,resnorm,residual,exitflag,output] = lsqnonlin(@weighted_fopdt_err, param0, ...
+  lb, [], opts, f_measured, gains_measured)
 
 [Kp_fit, tau_fit, D_fit] = unpack(params_hat);
 
