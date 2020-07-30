@@ -23,7 +23,7 @@ G_true = make_G(Kp, tau, D);   % transfer function model
 % relay parameters
 h = 1;
 alpha = 0.2;
-bias = 0.2*h;
+bias = 0.2;
 
 warning('off','all')
 
@@ -34,7 +34,7 @@ warning('off','all')
 noise_power_list = linspace(0, 9e-16, 10);
 hyst_prev = 3e-6;
 
-for k = 3:3 % length(noise_power_list)
+for k = 1:length(noise_power_list)
   k
   noise_power = noise_power_list(k);  
   
