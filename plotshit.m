@@ -6,12 +6,13 @@ figure
 % Plot time-domain signal y
 ax(1) = subplot(221);
 hold on
-plot(t, ydata, 'b');
+plot(t, y.data, 'b');
+plot(t, yclean, 'r');
 grid on
 ylabel('Amplitude'); 
 xlabel('Time (secs)');
 title('Response (Y) time signal');
-ylim([1.2*min(ydata) 1.2*max(ydata)])
+ylim([1.2*min(y.data) 1.2*max(y.data)])
 xlim([0 Tsim])
 
 % Plot FFT y
@@ -30,7 +31,7 @@ ylim([-.05 1.2]*max(Ay))
 
 % Plot time-domain signal u
 ax(2) = subplot(223);
-plot(t, udata);
+plot(t, udata, 'b');
 grid on
 ylabel('Amplitude'); 
 xlabel('Time (secs)');
@@ -64,11 +65,12 @@ hold on
 nyquist(G_true, 'b')
 nyquist(G_fit, 'r')
 scatter( real(gains_meas), imag(gains_meas), 'r', 'filled')
+x = 1.2*abs(gains_meas(3)) * [0 cosd(-150)];
+y = 1.2*abs(gains_meas(3)) * [0 sind(-150)];
+plot(x,y,'g','linewidth',1.5)
 legend('True Model', 'Fit Model', 'Measured Gains')
 set(gcf, 'position', [1 76 560 420])
 xlim([-1 1.5]*Kp)
-
-
 
 
 
