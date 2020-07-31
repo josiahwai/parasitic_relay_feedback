@@ -1,4 +1,4 @@
-clear; clc; close all;
+clear all; clc; close all;
 addpath([pwd '/tools'])
 addpath([pwd '/sensitivity_analysis'])
 
@@ -6,8 +6,8 @@ addpath([pwd '/sensitivity_analysis'])
 % ========
 % SETTINGS
 % ========
-noise_power = 1e-17;
-NumOfFreqs = 4;   % number of harmonic peaks to include in fitting
+noise_power = 2e-17;
+NumOfFreqs = 6;   % number of harmonic peaks to include in fitting
 Tsim = 10;
 
 % model parameters
@@ -18,10 +18,12 @@ model_params = [Kp tau D];
 
 % relay parameters
 h = 1;
-alpha = 0.25;
-bias = 0.25;
+alpha1 = 0.25;
+alpha2 = 0.25;
+bias_f = 0.2;
 hysteresis = 3e-6;
-relay_params = [h alpha bias hysteresis];
+relay_params = [h alpha1 alpha2 bias_f hysteresis];
+use_2_parasites = boolean(alpha2); % flag to indicate to look for freqs from 2nd parasite
 
 % ========
 % SIMULATE
@@ -50,8 +52,8 @@ noise_ratio2 = mean(abs(noise)) / mean(abs(yclean));
 
 
 % Find relay feedback gains
-[gains_meas, f_meas, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = find_rfb_gains...
-  (udata, yfilt, ts, NumOfFreqs); 
+[gains_meas, f_meas, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = find_rfb_gains ...
+  (udata, yfilt, ts, NumOfFreqs, use_2_parasites); 
 
 % Fit to a FOPDT model
 [Kp_fit, tau_fit, D_fit] = fit_transfer_fun(udata, yfilt, ts, gains_meas, f_meas);

@@ -5,7 +5,7 @@
 % Returns: gains_rfb, f_rfb the gains and frequencies [Hz] and FFT parameters
 
 function [gains_rfb, f_rfb, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = ...
-  find_rfb_gains(u_data, y_data, ts, nfreqs)
+  find_rfb_gains(u_data, y_data, ts, nfreqs,  use_2_parasites)
 
 % FFT transform
 [Y,Ay,f] = fft_time(y_data, ts);
@@ -27,8 +27,13 @@ i = round((i1+i2)/2);  % averaged fundamental freq
 ff = f(i);                 
 
 % Create list of harmonic frequencies
-f_harmonics_y = (0.5*ff_y: 0.5*ff_y: nfreqs*ff_y/2)';
-f_harmonics_u = (0.5*ff_u: 0.5*ff_u: nfreqs*ff_u/2)';
+if use_2_parasites
+  mult = 0.25;
+else
+  mult = 0.5;
+end
+f_harmonics_y = (mult*ff_y: mult*ff_y: mult*nfreqs*ff_y)';
+f_harmonics_u = (mult*ff_u: mult*ff_u: mult*nfreqs*ff_u)';
 
 % search within fwindow Hz to find the peaks of each harmonic
 % need 2 sets of indices since peak in Ay may be offset slightly from Au
