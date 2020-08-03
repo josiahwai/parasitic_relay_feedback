@@ -1,12 +1,12 @@
 clear all; clc; close all;
 addpath([pwd '/tools'])
 addpath([pwd '/sensitivity_analysis'])
-
+addpath([pwd '/noise_power_estimation'])
 
 % ========
 % SETTINGS
 % ========
-noise_power = 2e-17;
+noise_power = 4e-17;
 NumOfFreqs = 6;   % number of harmonic peaks to include in fitting
 Tsim = 10;
 
@@ -19,9 +19,9 @@ model_params = [Kp tau D];
 % relay parameters
 h = 1;
 alpha1 = 0.25;
-alpha2 = 0.25;
+alpha2 = 0;
 bias_f = 0.2;
-hysteresis = 3e-6;
+hysteresis = 1e-6;
 relay_params = [h alpha1 alpha2 bias_f hysteresis];
 use_2_parasites = boolean(alpha2); % flag to indicate to look for freqs from 2nd parasite
 
