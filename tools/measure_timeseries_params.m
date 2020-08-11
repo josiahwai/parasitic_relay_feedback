@@ -13,10 +13,8 @@
 %   wu - ultimate frequency (radians)
 %   fu - ultimate frequency (Hz)
 %   Tu - ultimate period
-%   ta - the time it takes to reach max amplitude, y(ta) = a, measured from
-%        the most recent zero crossing of y
-%   ta2 - the time it takes to reach half of max amplitude, y(ta2) = a/2,
-%         measured from the most recent zero crossin of y
+%   ta - the time it takes y to travel from -a to +a (and vice versa)
+%   ta2 - the time it takes y to travel from -a to 0 (or +a to 0)
 %
 % Restrictions: algorithm was written for a single relay and has not been
 % tested for more complicated systems such as the parasitic relay
@@ -43,7 +41,6 @@ pks = findpeaks(abs(y), 'minpeakheight', max(y)/2, 'minpeakdistance', nperiod/3)
 a = mean(pks);
 
 h = ( max(u) - min(u)) / 2;
-
 
 % Measure delays: after each relay switch, find the time till peak y
 nhalfpds = length(iswitch) - 1;
@@ -75,38 +72,13 @@ for i = 1: ( min( length(ipks_neg), length(ipks_pos)) - 1)
   izerocross1 = find( y(isearch1(1:end-1)) .* y(isearch1(2:end)) < 0, 1);
   izerocross2 = find( y(isearch2(1:end-1)) .* y(isearch2(2:end)) < 0, 1);
 
-  ta2_list(i,1) = ts*izerocross1;
-  ta2_list(i,2) = ts*izerocross2;
+  ta2_list(i,1) = ts * izerocross1;
+  ta2_list(i,2) = ts * izerocross2;
 end
 
 ta2_list = reshape(ta2_list, [], 1);
-
 ta2 = mean(rmoutliers(ta2_list));  
 ta = Tu/2;
-
-
-
-% ============================
-% METHOD 2: Measure ta and ta2
-% ============================
-% izerocrosses = find( y(1:end-1) .* y(2:end) < 0);
-% 
-% for i = 1:(length(izerocrosses)-1)  
-%   izerocross = izerocrosses(i);
-%   
-%   isearch = floor(izerocross:izerocross+nperiod*0.6);
-%   
-%   % measure time to peak and time till half peak
-%   [apk, delta_ia] = max(abs(y(isearch)));   
-%   ta_list(i) = ts*delta_ia;
-%   
-%   delta_ia2 = find( abs(y(isearch)) >= apk/2, 1);
-%   ta2_list(i) = ts*delta_ia2;
-%   
-% end
-% 
-% ta = mean(rmoutliers(ta_list));
-% ta2 = mean(rmoutliers(ta2_list));
 
 
 % figure
