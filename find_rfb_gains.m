@@ -5,7 +5,7 @@
 % Returns: gains_rfb, f_rfb the gains and frequencies [Hz] and FFT parameters
 
 function [gains_rfb, f_rfb, f, ipks, Y, Ay, ipks_y, U, Au, ipks_u] = ...
-  find_rfb_gains(u_data, y_data, ts, nfreqs,  use_2_parasites)
+  find_rfb_gains(u_data, y_data, ts, nfreqs,  nparasites)
 
 % FFT transform
 [Y,Ay,f] = fft_time(y_data, ts);
@@ -17,7 +17,7 @@ isearch = find(f > 0.05);   % ignore the zero hz peak
 i1 = isearch(k);
 ff_y = f(i1);
 
-fwindow = 0.05*ff_y;  % find fundamental frequency from u
+fwindow = .02*ff_y;  % find fundamental frequency from u
 isearch =  find( abs(f-ff_y) < fwindow);  
 [~,k] = max(Au(isearch));
 i2 = isearch(k);
@@ -27,11 +27,7 @@ i = round((i1+i2)/2);  % averaged fundamental freq
 ff = f(i);                 
 
 % Create list of harmonic frequencies
-if use_2_parasites
-  mult = 0.25;
-else
-  mult = 0.5;
-end
+mult = 1/(2^nparasites);
 f_harmonics_y = (mult*ff_y: mult*ff_y: mult*nfreqs*ff_y)';
 f_harmonics_u = (mult*ff_u: mult*ff_u: mult*nfreqs*ff_u)';
 

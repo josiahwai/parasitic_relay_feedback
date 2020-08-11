@@ -70,7 +70,7 @@ y = 1.2*abs(gains_meas(3)) * [0 sind(-150)];
 plot(x,y,'g','linewidth',1.5)
 legend('True Model', 'Fit Model', 'Measured Gains')
 set(gcf, 'position', [1 76 560 420])
-xlim([-1 1.5]*Kp)
+xlim([-1.2 1.2]*abs(Kp))
 
 
 
