@@ -17,7 +17,7 @@ model_params = [Kp tau D];
 
 % sensor noise
 noise_power = 3e-17;  
-noise_bias = 1e-6;
+noise_bias = 1.2e-6;
 
 % relay parameters
 d = 1;
