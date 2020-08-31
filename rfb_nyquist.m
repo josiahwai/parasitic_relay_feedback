@@ -6,7 +6,7 @@ addpath([pwd '/noise_power_estimation'])
 % ========
 % SETTINGS
 % ========
-NumOfFreqs = 5;   % number of harmonic peaks to include in fitting
+NumOfFreqs = 7;   % number of harmonic peaks to include in fitting
 Tsim = 2;
 
 % model parameters
@@ -17,11 +17,11 @@ model_params = [Kp tau D];
 
 % sensor noise
 noise_power = 3e-17;  
-noise_bias = 1.2e-6;
+noise_bias = 1e-6;
 
 % relay parameters
 d = 1;
-alpha = [0 0 0 0 0];
+alpha = [0.2 0.2 0 0 0];
 nparasites = nnz(alpha);
 output_bias_frac = 0.1;
 input_bias = 1e-6;
@@ -44,7 +44,8 @@ n = length(t);
 ts = mean(diff(t));  % sample time
 Fs = 1/ts; 
 udata = u.data(1:n);
-yfilt = sgolayfilt(y.data(1:n),3,101);
+% yfilt = sgolayfilt(y.data(1:n),3,31);
+yfilt = smooth(y.data, 10);
 yclean = yclean.data(1:n);
 noise = noise.data(1:n);
 

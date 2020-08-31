@@ -2,11 +2,11 @@
 % Ref: Cheng-Ching Yu, Autotuning of PID Controllers
 close all
 try u = u.Data; catch, end
-clearvars -except u yfilt t gains_meas f_meas
+clearvars -except u yfilt y t gains_meas f_meas
 
 Ku = 1/gains_meas(2);
 wu = 2*pi*f_meas(2);
-[D, a, h, wu, fu, Tu, ta, ta2] = measure_timeseries_params(u, yfilt, t);
+[D, a, h, wu, fu, Tu, ta, ta2, ta2sigma] = measure_timeseries_params(u, yfilt, t);
 
 
 % plot(t,u)

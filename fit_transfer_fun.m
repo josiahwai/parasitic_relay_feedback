@@ -15,8 +15,8 @@ iy0 = find( abs(y) > y_thresh, 1);
 D0 = ts * (iy0 - iu0);
 
 % Read Kp and ultimate gain and frequency 
-% Kp0 = 2e-5;
-Kp0 = gains_measured(1);
+Kp0 = 2e-5;
+% Kp0 = gains_measured(1);
 Ku = 1/gains_measured(3);
 wu = 2*pi*f_measured(3);
 
@@ -46,7 +46,8 @@ nf = length(f_measured);
 
 % ADJUST THESE FOR WEIGHTED FITTING
 fit_wts = ones(nf, 1);                   % equal weighting
-% fit_wts(1) = 0;
+fit_wts(1) = 0;
+fit_wts(2) = 10;
 % fit_wts = [10; 1; 10; ones(nf-3,1)];   % high weighting on steady-state, fundamental freqs
 % fit_wts = [1; 100; 10; ones(nf-3,1)];   % high weighting on fundamental freq and 0.5x fundamental
 
