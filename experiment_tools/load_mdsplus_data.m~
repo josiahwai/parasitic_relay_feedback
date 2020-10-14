@@ -1,0 +1,34 @@
+
+
+
+% EXAMPLE:
+% [DESMSOFF, DESMSERR] = load_mdsplus_data(23070, 'kstar', 'DESMSOFF', 'DESMSERR')
+% figure
+% subplot(211)
+% plot(DESMSOFF.t, DESMSOFF.y)
+% subplot(212)
+% plot(DESMSERR.t, DESMSERR.y)
+
+function varargout = load_mdsplus_data(shot, tree, varargin)
+
+  for iarg = 1:length(varargin)
+    
+    signal = 
+    
+
+
+
+  setenv('MDSPLUS_DIR', '/usr/local/mdsplus');
+  MDSPLUS=getenv('MDSPLUS_DIR');
+  addpath(genpath(MDSPLUS))
+  
+  mdsconnect('172.17.250.21:8005')
+  tree = 'kstar';
+  mdsopen(tree,shot)
+  
+  Dalpha  = mdsvalue('\PCPOLHA02');
+  Dalphat = mdsvalue('DIM_OF(\PCPOLHA02)');
+  
+  mdsclose
+  mdsdisconnect
+end

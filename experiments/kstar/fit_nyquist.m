@@ -6,7 +6,7 @@ clear all; clc; close all;
 % ========
 % SETTINGS
 % ========
-plotit = 0;
+plotit = 1;
 
 % ====================================
 % LOAD DATA, FIND MINI-XP TIME WINDOWS
