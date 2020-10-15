@@ -5,10 +5,10 @@ clear all; clc; close all;
 % ========
 plotit = 1;
 saveit = 1;
-shot = 21801; %23070
+shot = 23070;
 
 signal_names = {'DESMSOFF', 'DESMSERR'};
-savedir = '/Users/jwai/Desktop/relay_feedback/experiment_tools/datafiles/';
+savedir = '/Users/jwai/Desktop/relay_feedback/experiment_tools/data/';
 load_data_from_mdsplus = 0;
 
 t0 = 0;  % time window to use for plotting
@@ -56,6 +56,15 @@ if plotit
   linkaxes(axb, 'x')  
 end
 
+
+figure
+hold on
+plot(DESMSOFF.t(i), DESMSOFF.y(i))
+plot(DESMSERR.t(i), DESMSERR.y(i) * 2e6)
+grid on
+
+
+[~, ~, ~, ~, ~, ~, signKp] = measure_timeseries_params(DESMSOFF.y, DESMSERR.y, DESMSERR.t);
 
 if saveit
   fn = ['signals' num2str(shot)];
