@@ -111,7 +111,7 @@ for i = 2:( length( iswitches) - 2)
     pk1 = y(ipk1);
     
     % half-rise time
-%     mp = (pk1 + pk0) / 2;  % midpoint level to cross
+    % mp = (pk1 + pk0) / 2;  % midpoint level to cross
     mp = 0;
     idx = ipk0:ipk1;
     nhalfrise = find( ( y(idx(1:end-1)) - mp) .* ( y(idx(2:end)) - mp) < 0, 1);
@@ -140,16 +140,15 @@ ta2sigma = std(ta2_list);
 % calculate confidence interval bounds on the samples of ta and ta2 
 % the most important factor is the ratio between ta and ta2, therefore we
 % can fix ta and put the bounds on ta2. 
-ta = mean(ta_list);
-ta2 = mean(ta2_list);
+ta = pmean(ta_list, 0.8);
+ta2 = pmean(ta2_list, 0.8);
 
 ta_frac = ta2_list ./ ta_list;
 [ta_frac_lb, ta_frac_ub] = Tconfidence_interval(ta_frac, 0.95);
 ta2_lb = ta_frac_lb * ta;
 ta2_ub = ta_frac_ub * ta;
 
-
-
+ta2 = pmean(ta_frac, 0.8) * ta;
 
 
 

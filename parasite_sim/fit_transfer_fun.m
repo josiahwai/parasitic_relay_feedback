@@ -46,8 +46,9 @@ nf = length(f_measured);
 
 % ADJUST THESE FOR WEIGHTED FITTING
 fit_wts = ones(nf, 1);                   % equal weighting
-fit_wts(1) = 0;
-fit_wts(2) = 10;
+% fit_wts(1) = 0;
+% fit_wts(2) = 10;
+
 % fit_wts = [10; 1; 10; ones(nf-3,1)];   % high weighting on steady-state, fundamental freqs
 % fit_wts = [1; 100; 10; ones(nf-3,1)];   % high weighting on fundamental freq and 0.5x fundamental
 

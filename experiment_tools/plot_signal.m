@@ -6,10 +6,10 @@ clear all; clc; close all;
 plotit = 1;
 saveit = 1;
 shot = 23070;
+load_data_from_mdsplus = 0;
 
 signal_names = {'DESMSOFF', 'DESMSERR'};
 savedir = '/Users/jwai/Desktop/relay_feedback/experiment_tools/data/';
-load_data_from_mdsplus = 0;
 
 t0 = 0;  % time window to use for plotting
 tf = 12;
@@ -24,7 +24,7 @@ else
   fn = ['signals' num2str(shot)];
   load(fn);
 end
-struct_to_ws(signals)
+struct_to_ws(signals);
 
 %%
 % =============
@@ -32,14 +32,22 @@ struct_to_ws(signals)
 % =============
 i = find(DESMSOFF.t > t0 & DESMSOFF.t < tf);
 
+
 if plotit
   figure
   axa(1) = subplot(221);
+  hold on
+  grid on
   plot(DESMSOFF.t(i), DESMSOFF.y(i))
-  legend('DESMSOFF')
+  f = 0.5* max(DESMSOFF.y) / median( findpeaks( DESMSERR.y, 'sortstr', ...
+    'descend', 'Npeaks', 10, 'Minpeakdistance', 200)) ;
+  plot(DESMSERR.t(i), DESMSERR.y(i) * f)
+  legend('DESMSOFF', 'DESMSERR')
   
   axa(2) = subplot(223);
-  plot(DESMSERR.t(i), DESMSERR.y(i))
+  hold on
+  grid on
+  plot(DESMSERR.t(i), DESMSERR.y(i), 'r')
   legend('DESMSERR')
   linkaxes(axa,'x')      
   
@@ -54,17 +62,12 @@ if plotit
   plot(f, mag)
   legend('FFT DESMSERR')
   linkaxes(axb, 'x')  
+  xlim([0 600])
 end
 
 
-figure
-hold on
-plot(DESMSOFF.t(i), DESMSOFF.y(i))
-plot(DESMSERR.t(i), DESMSERR.y(i) * 2e6)
-grid on
-
-
 [~, ~, ~, ~, ~, ~, signKp] = measure_timeseries_params(DESMSOFF.y, DESMSERR.y, DESMSERR.t);
+disp(['Inferred signKp: ' num2str(signKp)])
 
 if saveit
   fn = ['signals' num2str(shot)];

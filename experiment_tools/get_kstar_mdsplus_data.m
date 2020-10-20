@@ -47,7 +47,7 @@ function signals_data = get_kstar_mdsplus_data(shot, varargin)
   
   
   function connectioncheck(status, msgtrue, msgfalse)
-    if status == 1
+    if status > 0
       disp(msgtrue)
     else
       warning(msgfalse)

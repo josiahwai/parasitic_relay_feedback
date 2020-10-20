@@ -17,7 +17,7 @@ isearch = find(f > 0.05);   % ignore the zero hz peak
 i1 = isearch(k);
 ff_y = f(i1);
 
-fwindow = .02*ff_y;  % find fundamental frequency from u
+fwindow = .05*ff_y;  % find fundamental frequency from u
 isearch =  find( abs(f-ff_y) < fwindow);  
 [~,k] = max(Au(isearch));
 i2 = isearch(k);

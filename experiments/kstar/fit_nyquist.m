@@ -75,7 +75,7 @@ for isection = 1:nsections
   
   % estimate Kp, tau and the lower and upper bounds
   [D, ta, ta2, ta2_lb, ta2_ub, ta2sigma, signKp] = ...
-    measure_timeseries_params(u, yfilt, t);
+    measure_timeseries_params2(u, yfilt, t);
   
   [Kp, tau] = fopdt_fit_eqns(Gu, ta, ta2, signKp);
   [Kp_lb, tau_lb] = fopdt_fit_eqns(Gu, ta, ta2_lb, signKp);  

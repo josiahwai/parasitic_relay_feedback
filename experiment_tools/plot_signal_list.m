@@ -3,13 +3,13 @@ clear all; clc; close all;
 % ========
 % SETTINGS
 % ========
-shot = 23070; 
+shot = 23070; %21081; 
 load_data_from_mdsplus = 0;
-saveit = 1;
+saveit = 0;
 data_dir = '/Users/jwai/Desktop/relay_feedback/experiment_tools/data/';
 fig_dir = '/Users/jwai/Desktop/relay_feedback/experiment_tools/figs/';
 
-signal_names = {'DESMSOFF', 'DESMSERR', 'SYSIPS1A', 'SYSIPS2A', 'SYSIPS3A'};
+signal_names = {'DESMSOFF', 'DESMSERR', 'SYSIPS1A', 'MPZ208L20', 'MPZ028L20'};
 %%
 % =========
 % LOAD DATA
@@ -54,7 +54,12 @@ if saveit
 end
 
 
-
+%% ESTIMATE HYSTERESIS VALUES TO USE
+struct_to_ws(signals);
+std1 = std( MPZ208L20.y - smooth(MPZ208L20.y, 10));
+std2 = std( MPZ028L20.y - smooth(MPZ028L20.y, 10));
+std1
+std2
 
 
 

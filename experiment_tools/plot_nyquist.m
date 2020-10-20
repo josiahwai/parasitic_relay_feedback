@@ -3,10 +3,11 @@ clear all; clc; close all;
 % ========
 % SETTINGS
 % ========
-shot = 21801; % 23070;
-t0 = [2 3 4 6 7];       % timeslice to use for nyquist plot
-tf = [3 4 5 7 8];
-numfreqs = 1;
+% shot = 21801;
+shot =  23070; 
+t0 = [4 6]; % [2 3 4 6 7];       % timeslice to use for nyquist plot
+tf = [4.9 6.9]; % [3 4 5 7 8];
+numfreqs = 4;
 figdir = '/Users/jwai/Desktop/relay_feedback/experiment_tools/figs/';
 
 % ==========
@@ -36,8 +37,10 @@ for iregion = 1:nregions
   [U,Au,~] = fft_time(u, ts);
   [Y,Ay,f] = fft_time(y, ts);
   
+  [~,imax] = max(Ay);
+  
   [~,i_use] = findpeaks(Au,'SortStr', 'descend', 'NPeaks', numfreqs, ...
-      'minpeakdist', 10/mean(diff(f)));    
+      'minpeakdist', imax / 3); %10/mean(diff(f)));    
   f_use = f(i_use);
   
   figure
@@ -63,17 +66,6 @@ end
 
 
 
-figure
-title('NYQUIST')
-hold on
-grid on
-for i = 1:nregions
-  scatter( real(gains_meas{i}), imag(gains_meas{i}), 'o', 'filled')
-end
-yline(0)
-xline(0)
-yplotmax = max(max(abs(cell2mat(gains_meas))));
-axis([-1 1 -1 1]*yplotmax*1.5)
 
 fn = [figdir 'nyquist.fig'];
 savefig(gcf, fn);
